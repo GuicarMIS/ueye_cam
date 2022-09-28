@@ -106,6 +106,7 @@ UEyeCamNodelet::UEyeCamNodelet():
   cam_params_.software_gamma=100;
   cam_params_.auto_exposure = false;
   cam_params_.auto_exposure_reference = 128;
+  //cam_params_.dual_exposure = true;
   cam_params_.exposure = DEFAULT_EXPOSURE;
   cam_params_.auto_white_balance = false;
   cam_params_.white_balance_red_offset = 0;
@@ -198,6 +199,7 @@ void UEyeCamNodelet::onInit() {
       "Software Gamma:\t\t" << cam_params_.software_gamma << endl <<
       "Auto Exposure:\t\t" << cam_params_.auto_exposure << endl <<
       "Auto Exposure Reference:\t" << cam_params_.auto_exposure_reference << endl <<
+      //"Dual Exposure:\t\t" << cam_params_.dual_exposure << endl <<
       "Exposure (ms):\t\t" << cam_params_.exposure << endl <<
       "Auto White Balance:\t" << cam_params_.auto_white_balance << endl <<
       "WB Red Offset:\t\t" << cam_params_.white_balance_red_offset << endl <<
@@ -393,7 +395,16 @@ INT UEyeCamNodelet::parseROSParams(ros::NodeHandle& local_nh) {
     if (cam_params_.auto_exposure != prevCamParams.auto_exposure) {
       hasNewParams = true;
     }
-  } else {
+  } /*else if (local_nh.hasParam("dual_exposure"))
+   {
+    local_nh.setParam("dual_exposure", cam_params_.dual_exposure);
+  }
+  if (local_nh.hasParam("dual_exposure")) {
+    local_nh.getParam("dual_exposure", cam_params_.dual_exposure);
+    if (cam_params_.dual_exposure != prevCamParams.dual_exposure) {
+      hasNewParams = true;
+    }
+  }*/ else {
     local_nh.setParam("auto_exposure", cam_params_.auto_exposure);
   }
   if (local_nh.hasParam("auto_exposure_reference")) {

@@ -603,6 +603,14 @@ INT UEyeCamDriver::setExposure(bool& auto_exposure, double& auto_exposure_refere
     }
   }
 
+  // Set dual exposure 
+  UINT dual=50;
+  if ((is_err = is_Exposure(cam_handle_, IS_EXPOSURE_CMD_SET_DUAL_EXPOSURE_RATIO,
+        (void*) &(dual), sizeof(dual))) != IS_SUCCESS) {
+    ERROR_STREAM("Failed to set dual exposure");
+    return is_err;
+        }
+        
   // Set exposure reference for auto exposure controller 
   if ((is_err = is_SetAutoParameter (cam_handle_, IS_SET_AUTO_REFERENCE, 
     &auto_exposure_reference, 0)) != IS_SUCCESS) {
@@ -629,6 +637,13 @@ INT UEyeCamDriver::setExposure(bool& auto_exposure, double& auto_exposure_refere
           " ms for [" << cam_name_ << "]");
       return is_err;
     }
+    // Set dual exposure 
+    UINT dual=50;
+    if ((is_err = is_Exposure(cam_handle_, IS_EXPOSURE_CMD_SET_DUAL_EXPOSURE_RATIO,
+          (void*) &(dual), sizeof(dual))) != IS_SUCCESS) {
+      ERROR_STREAM("Failed to set dual exposure");
+      return is_err;
+        }
   }
 
   DEBUG_STREAM("Updated exposure: " << ((auto_exposure) ? "auto" : to_string(exposure_ms)) <<
